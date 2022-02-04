@@ -20,6 +20,9 @@
   <ItemGroup>
     <ProjectReference Include="..\OverEngineeredToDoList.Infrastructure\OverEngineeredToDoList.Infrastructure.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Logs\" />
+  </ItemGroup>
   <Target Name="EndpointPostBuildTarget" AfterTargets="Build">
     <Exec Command="dotnet tool restore" />
     <Exec Command="dotnet tool run swagger tofile --serializeasv2  --output &quot;$(ProjectDir)swagger.json&quot; &quot;$(TargetDir)$(TargetFileName)&quot; v1" />

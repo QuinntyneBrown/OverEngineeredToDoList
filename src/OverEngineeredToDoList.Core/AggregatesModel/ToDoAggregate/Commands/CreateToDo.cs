@@ -43,10 +43,7 @@ namespace OverEngineeredToDoList.Core
     
         public async Task<CreateToDoResponse> Handle(CreateToDoRequest request, CancellationToken cancellationToken)
         {
-            var toDo = new ToDo()
-            {
-                Name = request.Name,
-            };
+            var toDo = new ToDo(request.Name);
 
             _context.ToDos.Add(toDo);
             

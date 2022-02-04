@@ -45,9 +45,7 @@ namespace OverEngineeredToDoList.Core
         {
             var toDo = await _context.ToDos.SingleAsync(x => x.ToDoId == request.ToDoId);
 
-            toDo.Name = request.Name;
-            
-            toDo.Complete = request.Complete;
+            toDo.Update(request.Name, request.Complete);
 
             await _context.SaveChangesAsync(cancellationToken);
             
