@@ -1,0 +1,26 @@
+@use 'src/scss/breakpoints';
+
+
+
+table {
+    width: 100%;
+    display: block;
+    box-sizing: border-box;
+    margin: 40px 0;
+}
+
+@media screen and (min-width: breakpoints.$screen-sm) { 
+
+}
+
+@media screen and (min-width: breakpoints.$screen-md) { 
+
+}
+
+@media screen and (min-width: breakpoints.$screen-lg) { 
+
+}
+
+@media screen and (min-width: breakpoints.$screen-md) { 
+
+}

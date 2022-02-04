@@ -1,0 +1,32 @@
+<ng-container *ngIf="vm$ | async as vm">
+
+	<h1>To Do List</h1>
+
+	<button mat-raised-button (click)="addOrUpdate()">Create</button>
+
+	<table mat-table [dataSource]="vm.dataSource" class="mat-elevation-z8">
+
+		<ng-container matColumnDef="name">
+		  <th mat-header-cell *matHeaderCellDef>Name</th>
+		  <td mat-cell *matCellDef="let toDo">{{ toDo.name }}</td>
+		</ng-container>
+	  
+		<ng-container matColumnDef="complete">
+		  <th mat-header-cell *matHeaderCellDef>Complete</th>
+		  <td mat-cell *matCellDef="let toDo">{{ toDo.complete }}</td>
+		</ng-container>
+	  
+		<ng-container matColumnDef="actions">
+		  <th mat-header-cell *matHeaderCellDef></th>
+		  <td mat-cell *matCellDef="let toDo">
+			<button mat-icon-button (click)="addOrUpdate(toDo)">
+				<mat-icon>edit</mat-icon>
+			</button>
+		  </td>
+		</ng-container>
+	  	  
+		<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+		<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+		
+	  </table>
+</ng-container>

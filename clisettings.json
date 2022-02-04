@@ -1,0 +1,31 @@
+{
+  "isRoot": true,
+  "isMicroserviceArchitecture": false,
+  "projects": [],
+  "rootDirectory": "C:\\projects\\OverEngineeredToDoList",
+  "solutionName": "OverEngineeredToDoList",
+  "solutionFileName": "OverEngineeredToDoList.sln",
+  "apiFullPath": "C:\\projects\\OverEngineeredToDoList\\src\\OverEngineeredToDoList.Api\\OverEngineeredToDoList.Api.csproj",
+  "rootNamespace": "OverEngineeredToDoList",
+  "domainNamespace": "OverEngineeredToDoList.SharedKernal",
+  "applicationNamespace": "OverEngineeredToDoList.Core",
+  "infrastructureNamespace": "OverEngineeredToDoList.Infrastructure",
+  "apiNamespace": "OverEngineeredToDoList.Api",
+  "domainDirectory": "C:\\projects\\OverEngineeredToDoList\\src\\OverEngineeredToDoList.SharedKernal",
+  "applicationDirectory": "C:\\projects\\OverEngineeredToDoList\\src\\OverEngineeredToDoList.Core",
+  "infrastructureDirectory": "C:\\projects\\OverEngineeredToDoList\\src\\OverEngineeredToDoList.Infrastructure",
+  "apiDirectory": "C:\\projects\\OverEngineeredToDoList\\src\\OverEngineeredToDoList.Api",
+  "unitTestsDirectory": "C:\\projects\\OverEngineeredToDoList\\tests\\OverEngineeredToDoList.UnitTests",
+  "testingDirectory": "C:\\projects\\OverEngineeredToDoList\\tests\\OverEngineeredToDoList.Testing",
+  "appDirectories": [],
+  "buildingBlocksCoreNamespace": "BuildingBlocks.Core",
+  "buildingBlocksEventStoreNamespace": "BuildingBlocks.EventStore",
+  "sourceFolder": "src",
+  "testFolder": "tests",
+  "dbContextName": "OverEngineeredToDoListDbContext",
+  "port": 5000,
+  "sslPort": 5001,
+  "resources": [
+    "ToDo"
+  ]
+}
