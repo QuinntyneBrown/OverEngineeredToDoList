@@ -1,4 +1,4 @@
-import { Component, Inject, NgModule } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ToDoDto, ToDoService } from '@api';
 import { BehaviorSubject, combineLatest, startWith, Subject, switchMap, tap } from 'rxjs';
@@ -8,12 +8,13 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-to-do-dialog',
   templateUrl: './to-do-dialog.component.html',
-  styleUrls: ['./to-do-dialog.component.scss']
+  styleUrls: ['./to-do-dialog.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ToDoDialogComponent {
 
@@ -66,7 +67,8 @@ export class ToDoDialogComponent {
     MatButtonModule,
     MatInputModule,
     MatCheckboxModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatIconModule
   ]
 })
 export class ToDoDialogModule { }

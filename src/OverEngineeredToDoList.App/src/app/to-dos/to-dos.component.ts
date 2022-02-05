@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ToDoDto } from '@api';
 import { ToDoService } from '@api/services';
 import { ToDoDialogComponent } from '@shared';
-import { map, startWith, Subject, switchMap } from 'rxjs';
+import { map, merge, startWith, Subject, switchMap } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
@@ -15,6 +15,8 @@ export class ToDosComponent {
 
   private readonly _addOrUpdateSubject: Subject<Partial<ToDoDto>> = new Subject();
 
+  private readonly _deleteSubject: Subject<ToDoDto> = new Subject();
+
   displayedColumns = [
     "name",
     "complete",
@@ -23,8 +25,8 @@ export class ToDosComponent {
 
   readonly vm$ = this._toDoService.getToDos().pipe(
     map(response => response.toDos),
-    switchMap(toDos => this._addOrUpdateSubject.pipe(
-      switchMap(toDo => this._dialog.open(ToDoDialogComponent, { data: toDo }).afterClosed().pipe(
+    switchMap(toDos => merge(this._addOrUpdateSubject.pipe(
+      switchMap(toDo => this._dialog.open(ToDoDialogComponent, { data: toDo, panelClass:'app-dialog-panel' }).afterClosed().pipe(
         map(toDo => {
           if(toDo) {
 
@@ -47,7 +49,17 @@ export class ToDosComponent {
         })
       )),
       startWith(toDos)
-    )),
+    ),this._deleteSubject.pipe(
+      switchMap(toDo => {
+
+        toDos.splice(toDos.findIndex(x => x.toDoId == toDo.toDoId),1);
+        
+        return this._toDoService.removeToDo(toDo.toDoId).pipe(
+          map(_ => toDos)
+        )
+      }),
+      startWith(toDos)
+    ))),
     map(toDos => ({ dataSource: new MatTableDataSource(toDos)}))
   );
 
@@ -62,4 +74,7 @@ export class ToDosComponent {
     this._addOrUpdateSubject.next(toDo);    
   }
 
+  delete(toDo: ToDoDto) {
+    this._deleteSubject.next(toDo);
+  }
 }

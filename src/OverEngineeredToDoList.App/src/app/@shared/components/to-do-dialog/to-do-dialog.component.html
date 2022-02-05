@@ -1,21 +1,43 @@
 <ng-container *ngIf="vm$ | async as vm">
-	
-    <h1>Create To Do</h1>
 
-    <form [formGroup]="form">
+    <div class="app-dialog-header">
 
-        <mat-form-field>
-            <mat-label>Name</mat-label>
-            <input matInput type="text" formControlName="name">
-        </mat-form-field>
+        <h1 class="app-dialog-heading">Create To Do</h1>
+    
+        <button mat-icon-button mat-dialog-close tabindex="-1">
+          <mat-icon>
+            close
+          </mat-icon>
+        </button>
 
-        <div *ngIf="form.value.toDoId">
-            <mat-checkbox formControlName="complete">Complete</mat-checkbox>
-        </div>
-    </form>
-
-    <div class="app-actions">
-        <button mat-raised-button (click)="save(form.value)">Save</button>
     </div>
-	
+
+    <div class="app-dialog-content">
+
+        <form [formGroup]="form">
+
+            <mat-form-field class="app-form-field">
+                <mat-label>Name</mat-label>
+                <input matInput type="text" formControlName="name" class="app-input">
+            </mat-form-field>
+    
+            <div *ngIf="form.value.toDoId">
+                <mat-checkbox formControlName="complete">Complete</mat-checkbox>
+            </div>
+        </form>
+
+    </div>
+
+    <div class="app-dialog-footer">
+
+        <div class="app-actions">
+
+            <button mat-stroked-button mat-dialog-close="" class="app-stroked-button">Cancel</button>
+
+            <button mat-raised-button (click)="save(form.value)" class="app-stroked-button">Save</button>
+
+        </div>
+
+    </div>
+
 </ng-container>
