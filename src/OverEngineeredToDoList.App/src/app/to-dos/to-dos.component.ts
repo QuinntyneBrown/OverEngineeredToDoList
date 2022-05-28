@@ -5,6 +5,7 @@ import { ToDoService } from '@api/services';
 import { ToDoDialogComponent } from '@shared';
 import { map, merge, startWith, Subject, switchMap } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
+import { createToDoListViewModel } from './create-to-list-view-model';
 
 @Component({
   selector: 'app-to-dos',
@@ -23,52 +24,7 @@ export class ToDosComponent {
     "actions"
   ];
 
-  readonly vm$ = this._toDoService.getToDos().pipe(
-    map(response => response.toDos),
-    switchMap(toDos => merge(this._addOrUpdateSubject.pipe(
-      switchMap(toDo => this._dialog.open(ToDoDialogComponent, { data: toDo, panelClass:'app-dialog-panel' }).afterClosed().pipe(
-        map(toDo => {
-          if(toDo) {
-
-            const existingToDo = toDos.find(x => x.toDoId == toDo.toDoId);
-
-            if(existingToDo) {
-              for(let i = 0; i < toDos.length; i++) {
-                if(toDos[i].toDoId == toDo.toDoId) {
-                  toDos[i] = toDo;
-                }
-              }
-            } 
-            else 
-            {
-              toDos.push(toDo)
-            }
-          }
-          
-          return toDos;
-        })
-      )),
-      startWith(toDos)
-    ),this._deleteSubject.pipe(
-      switchMap(toDo => {
-
-        toDos.splice(toDos.findIndex(x => x.toDoId == toDo.toDoId),1);
-        
-        return this._toDoService.removeToDo(toDo.toDoId).pipe(
-          map(_ => toDos)
-        )
-      }),
-      startWith(toDos)
-    ))),
-    map(toDos => ({ dataSource: new MatTableDataSource(toDos)}))
-  );
-
-  constructor(
-    private readonly _toDoService: ToDoService,
-    private readonly _dialog: MatDialog
-  ) { 
-
-  }
+  readonly vm$ = createToDoListViewModel(this._deleteSubject, this._addOrUpdateSubject);
 
   addOrUpdate(toDo:Partial<ToDoDto> = null) {
     this._addOrUpdateSubject.next(toDo);    
