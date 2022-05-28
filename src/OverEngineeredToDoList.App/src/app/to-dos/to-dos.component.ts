@@ -18,12 +18,6 @@ export class ToDosComponent {
 
   private readonly _deleteSubject: Subject<ToDoDto> = new Subject();
 
-  displayedColumns = [
-    "name",
-    "complete",
-    "actions"
-  ];
-
   readonly vm$ = createToDoListViewModel(this._deleteSubject, this._addOrUpdateSubject);
 
   addOrUpdate(toDo:Partial<ToDoDto> = null) {

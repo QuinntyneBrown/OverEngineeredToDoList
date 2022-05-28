@@ -48,7 +48,11 @@ export function createToDoListViewModel(deleteSubject: Subject<any>, addOrUpdate
           }),
           startWith(toDos)
         ))),
-        map(toDos => ({ dataSource: new MatTableDataSource(toDos)}))
+        map(toDos => ({ dataSource: new MatTableDataSource(toDos), displayedColumns : [
+            "name",
+            "complete",
+            "actions"
+          ]}))
       );
     
 }
