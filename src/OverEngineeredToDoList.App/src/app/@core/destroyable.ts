@@ -6,7 +6,7 @@ import { Constructor } from "./constructor";
 export class Destroyable implements OnDestroy {
   readonly _destroyed$: Subject<void>  = new Subject();
 
-  public ngOnDestroy(): void {
+  public ngOnDestroy(): void {    
     this._destroyed$.next();
     this._destroyed$.complete();
   }

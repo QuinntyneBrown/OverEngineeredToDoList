@@ -1,10 +1,6 @@
 import { Component } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { ToDoDto } from '@api';
-import { ToDoService } from '@api/services';
-import { ToDoDialogComponent } from '@shared';
-import { map, merge, startWith, Subject, switchMap } from 'rxjs';
-import { MatTableDataSource } from '@angular/material/table';
+import { ToDo } from '@shared/models/to-do';
+import { Subject} from 'rxjs';
 import { createToDoListViewModel } from './create-to-list-view-model';
 
 @Component({
@@ -14,17 +10,17 @@ import { createToDoListViewModel } from './create-to-list-view-model';
 })
 export class ToDosComponent {
 
-  private readonly _addOrUpdateSubject: Subject<Partial<ToDoDto>> = new Subject();
+  private readonly _addOrUpdateSubject: Subject<Partial<ToDo>> = new Subject();
 
-  private readonly _deleteSubject: Subject<ToDoDto> = new Subject();
+  private readonly _deleteSubject: Subject<ToDo> = new Subject();
 
-  readonly vm$ = createToDoListViewModel(this._deleteSubject, this._addOrUpdateSubject);
+  readonly vm$ = createToDoListViewModel(this._deleteSubject.asObservable(), this._addOrUpdateSubject.asObservable());
 
-  addOrUpdate(toDo:Partial<ToDoDto> = null) {
+  addOrUpdate(toDo:Partial<ToDo> = null) {
     this._addOrUpdateSubject.next(toDo);    
   }
 
-  delete(toDo: ToDoDto) {
+  delete(toDo: ToDo) {
     this._deleteSubject.next(toDo);
   }
 }

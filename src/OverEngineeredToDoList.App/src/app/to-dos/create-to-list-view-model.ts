@@ -1,23 +1,25 @@
 import { inject } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { MatTableDataSource } from "@angular/material/table";
-import { ToDoDto, ToDoService } from "@api";
+import { ToDoService } from "@api";
 import { ToDoDialogComponent } from "@shared/components/to-do-dialog/to-do-dialog.component";
-import { merge, Subject } from "rxjs";
+import { ToDo } from "@shared/models/to-do";
+import { merge, Observable } from "rxjs";
 import { map, startWith, switchMap } from "rxjs/operators";
 
-export function createToDoListViewModel(deleteSubject: Subject<any>, addOrUpdateSubject: Subject<any>) {
+export function createToDoListViewModel(delete$: Observable<ToDo>, addOrUpdate$: Observable<ToDo>) {
 
     const toDoService = inject(ToDoService);
     const dialog = inject(MatDialog);
 
     return toDoService.getToDos().pipe(
         map(response => response.toDos),
-        switchMap(toDos => merge(addOrUpdateSubject.pipe(
+        switchMap(toDos => merge(addOrUpdate$.pipe(
           switchMap(toDo => dialog.open(ToDoDialogComponent, { data: toDo, panelClass:'app-dialog-panel' }).afterClosed().pipe(
-            map((toDo: ToDoDto) => {
+            map(toDo => {
               if(toDo) {
     
+                
                 const existingToDo = toDos.find(x => x.toDoId == toDo.toDoId);
     
                 if(existingToDo) {
@@ -37,8 +39,8 @@ export function createToDoListViewModel(deleteSubject: Subject<any>, addOrUpdate
             })
           )),
           startWith(toDos)
-        ),deleteSubject.pipe(
-          switchMap((toDo: ToDoDto) => {
+        ),delete$.pipe(
+          switchMap(toDo => {
     
             toDos.splice(toDos.findIndex(x => x.toDoId == toDo.toDoId),1);
             
