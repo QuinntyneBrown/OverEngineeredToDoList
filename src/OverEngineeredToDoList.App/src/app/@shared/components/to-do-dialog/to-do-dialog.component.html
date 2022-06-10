@@ -1,44 +1,43 @@
-<ng-container *ngIf="vm$ | async as vm">
 
+<div class="app-dialog-header">
 
-    <div class="app-dialog-header">
+    <h1 class="app-dialog-heading" *ngIf="!form.value.toDoId">Create To Do</h1>
 
-        <h1 class="app-dialog-heading">Create To Do</h1>
-    
-        <button mat-icon-button mat-dialog-close tabindex="-1">
-          <mat-icon>
-            close
-          </mat-icon>
-        </button>
+    <h1 class="app-dialog-heading" *ngIf="form.value.toDoId">Edit To Do</h1>
 
-    </div>
+    <button mat-icon-button mat-dialog-close tabindex="-1">
+        <mat-icon>
+        close
+        </mat-icon>
+    </button>
 
-    <div class="app-dialog-content">
+</div>
 
-        <form [formGroup]="vm.form">
+<div class="app-dialog-content">
 
-            <mat-form-field class="app-form-field">
-                <mat-label>Name</mat-label>
-                <input matInput type="text" formControlName="name" class="app-input">
-            </mat-form-field>
-    
-            <div *ngIf="vm.form.value.toDoId">
-                <mat-checkbox formControlName="complete">Complete</mat-checkbox>
-            </div>
-        </form>
+    <form [formGroup]="form">
 
-    </div>
+        <mat-form-field class="app-form-field">
+            <mat-label>Name</mat-label>
+            <input matInput type="text" formControlName="name" class="app-input">
+        </mat-form-field>
 
-    <div class="app-dialog-footer">
-
-        <div class="app-actions">
-
-            <button mat-stroked-button mat-dialog-close="" class="app-stroked-button">Cancel</button>
-
-            <button mat-raised-button (click)="save()" class="app-stroked-button">Save</button>
-
+        <div *ngIf="form.value.toDoId">
+            <mat-checkbox formControlName="complete">Complete</mat-checkbox>
         </div>
+    </form>
+
+</div>
+
+<div class="app-dialog-footer">
+
+    <div class="app-actions">
+
+        <button mat-stroked-button mat-dialog-close="" class="app-stroked-button">Cancel</button>
+
+        <button mat-raised-button (click)="save(form.value)" class="app-stroked-button">Save</button>
 
     </div>
 
-</ng-container>
+</div>
+
