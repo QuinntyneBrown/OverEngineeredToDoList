@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { MatDialogModule } from '@angular/material/dialog';
 import { RouterModule } from '@angular/router';
+import { HeaderComponent } from '@shared';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +12,9 @@ import { RouterModule } from '@angular/router';
   standalone: true,
   imports: [
     RouterModule,
-    CommonModule
+    CommonModule,
+    MatDialogModule,
+    HeaderComponent
   ]
 })
 export class AppComponent { }

@@ -6,6 +6,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { environment } from './environments/environment';
 import { ApiModule } from '@api';
 import { RouterModule } from '@angular/router';
+import { MatDialogModule } from '@angular/material/dialog';
+import { ToDoStore } from '@shared/state/to-do.store';
 
 if (environment.production) {
   enableProdMode();
@@ -14,13 +16,15 @@ if (environment.production) {
 
 bootstrapApplication(AppComponent, {
   providers: [
+    ToDoStore,
     importProvidersFrom(
       RouterModule.forRoot([
         { path: '', loadComponent: () => import('./app/to-dos/to-dos.component').then(m => m.ToDosComponent) }
       ]),     
       HttpClientModule, 
       BrowserAnimationsModule,
-      ApiModule.forRoot({ rootUrl: 'https://localhost:5001' })
+      ApiModule.forRoot({ rootUrl: 'https://localhost:5001' }),
+      MatDialogModule
     )
   ]
 }).catch((err) => console.error(err));

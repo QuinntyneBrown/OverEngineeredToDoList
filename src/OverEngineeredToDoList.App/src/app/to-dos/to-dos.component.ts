@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
@@ -7,7 +7,6 @@ import { MatTableModule } from '@angular/material/table';
 import { ToDoDialogComponent } from '@shared';
 import { ToDo } from '@shared/models/to-do';
 import { ToDoStore } from '@shared/state/to-do.store';
-import { Subject} from 'rxjs';
 import { createToDoListViewModel } from './create-to-list-view-model';
 
 @Component({
@@ -24,22 +23,21 @@ import { createToDoListViewModel } from './create-to-list-view-model';
     MatIconModule
   ]
 })
-export class ToDosComponent {
-
-  private readonly _addOrUpdateSubject: Subject<Partial<ToDo>> = new Subject();
-
-  private readonly _deleteSubject: Subject<ToDo> = new Subject();
+export class ToDosComponent implements OnInit {
 
   private readonly _store = inject(ToDoStore);
+
+  readonly vm$ = createToDoListViewModel();
+
+  ngOnInit(): void {
+    this._store.entry()
+  }
   
-
-  readonly vm$ = createToDoListViewModel(this._deleteSubject.asObservable(), this._addOrUpdateSubject.asObservable());
-
   addOrUpdate(toDo:Partial<ToDo> = null) {
-    this._addOrUpdateSubject.next(toDo);    
+    this._store.addOrUpdate(toDo);    
   }
 
   delete(toDo: ToDo) {
-    this._deleteSubject.next(toDo);
+    this._store.delete(toDo);
   }
 }
