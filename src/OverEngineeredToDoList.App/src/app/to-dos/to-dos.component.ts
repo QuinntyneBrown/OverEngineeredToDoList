@@ -30,11 +30,11 @@ export class ToDosComponent implements OnInit {
   readonly vm$ = createToDoListViewModel();
 
   ngOnInit(): void {
-    this._store.entry()
+    this._store.load()
   }
   
   addOrUpdate(toDo:Partial<ToDo> = null) {
-    this._store.addOrUpdate(toDo);    
+    this._store.addOrUpdate(toDo);        
   }
 
   delete(toDo: ToDo) {

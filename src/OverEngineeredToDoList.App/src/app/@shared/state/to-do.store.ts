@@ -4,7 +4,7 @@ import { ToDoService } from "@api";
 import { ComponentStore, tapResponse } from "@ngrx/component-store";
 import { ToDoDialogComponent } from "@shared/components";
 import { ToDo } from "@shared/models/to-do";
-import { exhaustMap, map, pipe, startWith, switchMap, take } from "rxjs";
+import { exhaustMap, map, startWith, withLatestFrom } from "rxjs";
 
 export interface ToDoState {    
     toDos: ToDo[]
@@ -32,10 +32,9 @@ export class ToDoStore extends ComponentStore<ToDoState> {
 
     delete = this.effect<ToDo>(
         exhaustMap((toDo) => this._toDoService.removeToDo(toDo.toDoId).pipe(
-            switchMap(_ => this.select(x => x.toDos)),
-            take(1),
+            withLatestFrom(this.select(x => x.toDos)),
             tapResponse(
-                toDos => this.patchState({ toDos: toDos.filter(x => x.toDoId != toDo.toDoId ) }),
+                ([_, toDos]) => this.patchState({ toDos: toDos.filter(x => x.toDoId != toDo.toDoId ) }),
                 error => {
 
                 }
@@ -43,9 +42,9 @@ export class ToDoStore extends ComponentStore<ToDoState> {
         ))
     )
 
-    entry = this.effect<void>(
+    load = this.effect<void>(
         exhaustMap(_ => this._toDoService.getToDos().pipe(
-            map(x => x.toDos),
+            map(response => response.toDos),
             startWith(null),
             tapResponse(
                 toDos => this.patchState({ toDos }),

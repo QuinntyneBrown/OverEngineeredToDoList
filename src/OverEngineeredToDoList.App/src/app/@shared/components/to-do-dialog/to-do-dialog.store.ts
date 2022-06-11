@@ -9,11 +9,11 @@ import { exhaustMap, withLatestFrom } from "rxjs";
 @Injectable()
 export class ToDoDialogStore extends ComponentStore<null> {
 
-    _toDoStore = inject(ToDoStore);
-    _dialogRef = inject(MatDialogRef);
-    _toDoService = inject(ToDoService);
+    private readonly _toDoStore = inject(ToDoStore);
+    private readonly _dialogRef = inject(MatDialogRef);
+    private readonly _toDoService = inject(ToDoService);
 
-    save = this.effect(
+    readonly save = this.effect(
         exhaustMap((toDo:ToDo) => (toDo?.toDoId ? this._toDoService.updateToDo(toDo) : this._toDoService.createToDo(toDo)).pipe(
             withLatestFrom(this._toDoStore.state$),
             tapResponse(
@@ -26,7 +26,7 @@ export class ToDoDialogStore extends ComponentStore<null> {
                     }) : [...state.toDos, response.toDo];
 
                     this._toDoStore.patchState({ toDos });
-                    this._dialogRef.close(null);
+                    this._dialogRef.close();
                 },
                 error => {
 
