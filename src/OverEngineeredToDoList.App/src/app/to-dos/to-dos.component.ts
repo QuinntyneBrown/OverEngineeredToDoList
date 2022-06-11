@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { ToDoDialogComponent } from '@shared';
@@ -27,14 +27,14 @@ export class ToDosComponent implements OnInit {
 
   private readonly _store = inject(ToDoStore);
 
+  private readonly _dialog = inject(MatDialog);
+
   readonly vm$ = createToDoListViewModel();
 
-  ngOnInit(): void {
-    this._store.load()
-  }
-  
-  addOrUpdate(toDo:Partial<ToDo> = null) {
-    this._store.addOrUpdate(toDo);        
+  ngOnInit = () => this._store.load();
+
+  addOrUpdate(toDo:ToDo){
+    this._dialog.open(ToDoDialogComponent, { data: toDo, panelClass:'app-dialog-panel' })
   }
 
   delete(toDo: ToDo) {

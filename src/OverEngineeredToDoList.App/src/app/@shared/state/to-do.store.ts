@@ -1,10 +1,8 @@
 import { inject, Injectable } from "@angular/core";
-import { MatDialog } from "@angular/material/dialog";
 import { ToDoService } from "@api";
 import { ComponentStore, tapResponse } from "@ngrx/component-store";
-import { ToDoDialogComponent } from "@shared/components";
 import { ToDo } from "@shared/models/to-do";
-import { exhaustMap, map, startWith, withLatestFrom } from "rxjs";
+import { exhaustMap, map, withLatestFrom } from "rxjs";
 
 export interface ToDoState {    
     toDos: ToDo[]
@@ -20,14 +18,9 @@ const initialToDoState = {
 export class ToDoStore extends ComponentStore<ToDoState> {
 
     private readonly _toDoService = inject(ToDoService);
-    private readonly _dialog = inject(MatDialog);
 
     constructor() {
         super(initialToDoState);
-    }
-
-    addOrUpdate(toDo:ToDo){
-        this._dialog.open(ToDoDialogComponent, { data: toDo, panelClass:'app-dialog-panel' })
     }
 
     delete = this.effect<ToDo>(
@@ -45,7 +38,6 @@ export class ToDoStore extends ComponentStore<ToDoState> {
     load = this.effect<void>(
         exhaustMap(_ => this._toDoService.getToDos().pipe(
             map(response => response.toDos),
-            startWith(null),
             tapResponse(
                 toDos => this.patchState({ toDos }),
                 error => {
