@@ -4,7 +4,7 @@ import { ToDoService } from "@api";
 import { ComponentStore, tapResponse } from "@ngrx/component-store";
 import { ToDo } from "@shared/models/to-do";
 import { ToDoStore } from "@shared/state/to-do.store";
-import { exhaustMap, map, switchMap, take } from "rxjs";
+import { exhaustMap, switchMap, take } from "rxjs";
 
 @Injectable()
 export class ToDoDialogStore extends ComponentStore<null> {

@@ -1,15 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { map, of, tap } from 'rxjs';
 import { ToDoStore } from '@shared/state/to-do.store';
 
 
 function createHeaderViewModel() {
   const store = inject(ToDoStore);
-
-  return store.state$.pipe(
-    map(s => ({ toDoCount: s.toDos?.length }))
-  )
+  const toDos$ = store.select(state => state.toDos, { debounce: true });  
+  return store.select(toDos$, toDos => ({ toDoCount: toDos?.length }));
 }
 
 @Component({
