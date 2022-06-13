@@ -11,7 +11,11 @@ function createHeaderViewModel() {
 
 @Component({
   selector: 'app-header',
-  templateUrl: './header.component.html',
+  template:`
+  <ng-container *ngIf="vm$ | async as vm">
+	  <h1>Over Engineered To Do List App {{ vm.toDoCount }}</h1>
+  </ng-container>
+  `,
   standalone: true,
   imports: [
     CommonModule

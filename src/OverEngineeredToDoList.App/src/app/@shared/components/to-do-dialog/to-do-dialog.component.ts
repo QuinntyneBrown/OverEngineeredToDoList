@@ -14,7 +14,51 @@ import { ToDoDialogStore } from './to-do-dialog.store';
 
 @Component({
   selector: 'app-to-do-dialog',
-  templateUrl: './to-do-dialog.component.html',
+  template: `
+  <ng-container *ngIf="vm$ | async as vm">
+      <div class="app-dialog-header">
+
+          <h1 class="app-dialog-heading" *ngIf="!vm.form.value.toDoId">Create To Do</h1>
+      
+          <h1 class="app-dialog-heading" *ngIf="vm.form.value.toDoId">Edit To Do</h1>
+      
+          <button mat-icon-button mat-dialog-close tabindex="-1">
+              <mat-icon>
+              close
+              </mat-icon>
+          </button>
+      
+      </div>
+      
+      <div class="app-dialog-content">
+      
+          <form [formGroup]="vm.form">
+      
+              <mat-form-field class="app-form-field">
+                  <mat-label>Name</mat-label>
+                  <input matInput type="text" formControlName="name" class="app-input">
+              </mat-form-field>
+      
+              <div *ngIf="vm.form.value.toDoId">
+                  <mat-checkbox formControlName="complete">Complete</mat-checkbox>
+              </div>
+          </form>
+      
+      </div>
+      
+      <div class="app-dialog-footer">
+      
+          <div class="app-actions">
+      
+              <button mat-stroked-button mat-dialog-close="" class="app-stroked-button">Cancel</button>
+      
+              <button mat-raised-button (click)="save(vm.form.value)"  [disabled]="vm.form.invalid" class="app-stroked-button">Save</button>
+      
+          </div>
+      
+      </div>
+
+  </ng-container>`,
   styles: [`
     :host {
       display: flex;

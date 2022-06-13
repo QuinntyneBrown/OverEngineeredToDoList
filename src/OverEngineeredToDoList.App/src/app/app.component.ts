@@ -6,7 +6,10 @@ import { HeaderComponent } from '@shared';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
+  template: `
+  <app-header></app-header>
+  <router-outlet></router-outlet>
+  `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
