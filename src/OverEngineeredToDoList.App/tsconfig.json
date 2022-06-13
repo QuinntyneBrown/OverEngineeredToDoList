@@ -33,7 +33,13 @@
       ],
       "@api/*": [
         "src/app/@api/*"
-      ]
+      ],
+      "@database": [
+        "src/app/@database"
+      ],
+      "@database/*": [
+        "src/app/@database/*"
+      ]      
     }
   },
   "angularCompilerOptions": {

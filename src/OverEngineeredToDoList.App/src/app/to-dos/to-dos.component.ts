@@ -31,7 +31,9 @@ export class ToDosComponent implements OnInit {
 
   readonly vm$ = createToDoListViewModel();
 
-  ngOnInit = () => this._store.load();
+  ngOnInit() {
+    this._store.load(); 
+  };
 
   addOrUpdate(toDo:ToDo){
     this._dialog.open(ToDoDialogComponent, { data: toDo, panelClass:'app-dialog-panel' })
