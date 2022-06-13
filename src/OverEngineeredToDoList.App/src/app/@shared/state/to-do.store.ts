@@ -25,9 +25,9 @@ export class ToDoStore extends ComponentStore<ToDoState> {
 
     delete = this.effect<ToDo>(
         exhaustMap((toDo) => this._toDoService.removeToDo(toDo.toDoId).pipe(
-            withLatestFrom(this.select(x => x.toDos)),
+            withLatestFrom(this.select(response => response.toDos)),
             tapResponse(
-                ([_, toDos]) => this.patchState({ toDos: toDos.filter(x => x.toDoId != toDo.toDoId ) }),
+                ([_, toDos]) => this.patchState({ toDos: toDos.filter(t => t.toDoId != toDo.toDoId ) }),
                 error => {
 
                 }

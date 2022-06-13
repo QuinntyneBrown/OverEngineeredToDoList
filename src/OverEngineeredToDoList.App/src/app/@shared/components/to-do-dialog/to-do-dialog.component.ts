@@ -15,7 +15,15 @@ import { ToDoDialogStore } from './to-do-dialog.store';
 @Component({
   selector: 'app-to-do-dialog',
   templateUrl: './to-do-dialog.component.html',
-  styleUrls: ['./to-do-dialog.component.scss'],
+  styles: [`
+    :host {
+      display: flex;
+      min-width: 600px;
+      padding:30px;
+      flex-direction: column;
+      gap: 30px;
+    }`
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [

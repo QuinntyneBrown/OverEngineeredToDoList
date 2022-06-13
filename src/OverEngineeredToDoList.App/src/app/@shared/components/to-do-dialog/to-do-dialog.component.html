@@ -35,11 +35,12 @@
     
             <button mat-stroked-button mat-dialog-close="" class="app-stroked-button">Cancel</button>
     
-            <button mat-raised-button (click)="save(vm.form.value)" class="app-stroked-button">Save</button>
+            <button mat-raised-button (click)="save(vm.form.value)"  [disabled]="vm.form.invalid" class="app-stroked-button">Save</button>
     
         </div>
     
     </div>
+
 </ng-container>
 
 

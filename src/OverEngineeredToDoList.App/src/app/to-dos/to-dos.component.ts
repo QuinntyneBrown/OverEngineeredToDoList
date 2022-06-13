@@ -12,7 +12,22 @@ import { createToDoListViewModel } from './create-to-list-view-model';
 @Component({
   selector: 'app-to-dos',
   templateUrl: './to-dos.component.html',
-  styleUrls: ['./to-dos.component.scss'],
+  styles: [`  
+  :host {
+
+      display: block;
+      box-sizing: border-box;
+      padding: 60px;
+
+      .app-table {    
+          margin: 30px 0;    
+          .mat-header-row,
+          .mat-row {
+              display: grid;
+              grid-template-columns: 1fr 1fr 100px;
+          }
+      }
+  }`],
   standalone:true,
   imports: [
     CommonModule,
@@ -31,7 +46,9 @@ export class ToDosComponent implements OnInit {
 
   readonly vm$ = createToDoListViewModel();
 
-  ngOnInit = () => this._store.load();
+  ngOnInit() {
+    this._store.load();
+  }
 
   addOrUpdate(toDo:ToDo){
     this._dialog.open(ToDoDialogComponent, { data: toDo, panelClass:'app-dialog-panel' })
