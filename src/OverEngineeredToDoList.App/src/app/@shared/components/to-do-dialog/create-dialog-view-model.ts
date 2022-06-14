@@ -8,7 +8,7 @@ export function createDialogViewModel() {
     const toDo = inject(MAT_DIALOG_DATA);
     
     const form = new FormGroup({
-        toDoId: new FormControl(toDo?.toDoId || "",[]),
+        toDoId: new FormControl(toDo?.toDoId || "", []),
         name: new FormControl(toDo?.name || "",[Validators.required]),
         complete: new FormControl(toDo?.complete || false,[Validators.required])
     });

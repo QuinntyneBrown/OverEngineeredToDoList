@@ -1,8 +1,10 @@
 import { inject, Injectable } from "@angular/core";
-import { ToDoService } from "@api";
+import { CreateToDoResponse, ToDoService, UpdateToDoResponse } from "@api";
 import { ComponentStore, tapResponse } from "@ngrx/component-store";
 import { ToDo } from "@shared/models/to-do";
-import { exhaustMap, map, tap } from "rxjs";
+import { exhaustMap, map, tap, withLatestFrom } from "rxjs";
+
+export const noop = ((arg:unknown) => { });
 
 export interface ToDoState {    
     toDos: ToDo[]
@@ -23,51 +25,41 @@ export class ToDoStore extends ComponentStore<ToDoState> {
         super(initialToDoState);
     }
 
-    readonly update = (toDo:ToDo, nextFn: {(response:unknown): void} = null, errorFn: {(response:unknown): void} = null) => {
-        const state = this.get();   
+    readonly save = (toDo:ToDo, nextFn: {(response:unknown): void} = null, errorFn: {(response:unknown): void} = null) => {        
+        const apiRequest$ = toDo.toDoId ? this._toDoService.updateToDo(toDo) : this._toDoService.createToDo(toDo);
+        const updateFn = toDo?.toDoId ? ([response, toDos]: [UpdateToDoResponse, ToDo[]]) => this.patchState({
+            toDos: toDos.map(t => response.toDo.toDoId == t.toDoId ? response.toDo : t)
+        })
+        :(([response, toDos]: [CreateToDoResponse, ToDo[]]) => this.patchState({ toDos: [...toDos, response.toDo ]}));
         
         return this.effect<void>(
-            exhaustMap(() => (toDo?.toDoId ? this._toDoService.updateToDo(toDo).pipe(
-                tap(response => this.patchState({
-                    toDos: state.toDos.map(t => response.toDo.toDoId == t.toDoId ? response.toDo : t)
-                }))
-            ) : this._toDoService.createToDo(toDo).pipe(
-                tap(response => this.patchState({ toDos: [...state.toDos, response.toDo ]}))
-            )).pipe(            
+            exhaustMap(()=> apiRequest$.pipe(
+                withLatestFrom(this.select(x => x.toDos)),
+                tap(updateFn),
                 tapResponse(
-                    nextFn || ((response) => {
-
-                    }),
-                    errorFn || (error => {
-    
-                    })
+                    nextFn || noop,
+                    errorFn || noop
                 )
-            ))
-        )();
+            )
+        ))();
     }
 
     readonly delete = this.effect<ToDo>(
-        exhaustMap((toDo) => this._toDoService.removeToDo(toDo.toDoId).pipe(            
+        exhaustMap((toDo) => this._toDoService.removeToDo(toDo.toDoId).pipe( 
+            withLatestFrom(this.select(x => x.toDos)),           
             tapResponse(
-                _ => {
-                    const toDos = this.get(state => state.toDos);
-                    this.patchState({ toDos: toDos.filter(t => t.toDoId != toDo.toDoId )})
-                },
-                error => {
-
-                }
+                ([_, toDos]) => this.patchState({ toDos: toDos.filter(t => t.toDoId != toDo.toDoId )}),
+                noop
             )
         ))
     )
 
-    load = this.effect<void>(
+    readonly load = this.effect<void>(
         exhaustMap(_ => this._toDoService.getToDos().pipe(
             map(response => response.toDos),
             tapResponse(
                 toDos => this.patchState({ toDos }),
-                error => {
-
-                }                
+                noop                
             )
         ))
     )

@@ -91,6 +91,6 @@ export class ToDoDialogComponent {
   readonly vm$ = createDialogViewModel();
 
   save(toDo:ToDo) {    
-    this._store.update(toDo, () => this._dialog.close());
+    this._store.save(toDo, () => this._dialog.close());
   }
 }
