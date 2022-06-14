@@ -14,18 +14,10 @@ export class ToDoDialogStore extends ComponentStore<null> {
     private readonly _toDoService = inject(ToDoService);
 
     readonly save = this.effect(
-        exhaustMap((toDo:ToDo) => (toDo?.toDoId ? this._toDoService.updateToDo(toDo) : this._toDoService.createToDo(toDo)).pipe(
-            withLatestFrom(this._toDoStore.state$),
+        exhaustMap((toDo:ToDo) => (toDo?.toDoId ? this._toDoService.updateToDo(toDo) : this._toDoService.createToDo(toDo)).pipe(            
             tapResponse(
-                ([response,state]) => {
-                    const toDos = toDo.toDoId ? state.toDos.map(x => {
-                        if(toDo.toDoId == x.toDoId) {
-                            return response.toDo;
-                        }
-                        return x;
-                    }) : [...state.toDos, response.toDo];
-
-                    this._toDoStore.patchState({ toDos });
+                (response) => {
+                    toDo.toDoId ? this._toDoStore.update(response.toDo) : this._toDoStore.add(response.toDo);
                     this._dialogRef.close();
                 },
                 error => {
@@ -33,5 +25,5 @@ export class ToDoDialogStore extends ComponentStore<null> {
                 }
             )
         ))
-    )    
+    )   
 }

@@ -2,7 +2,7 @@ import { inject, Injectable } from "@angular/core";
 import { ToDoService } from "@api";
 import { ComponentStore, tapResponse } from "@ngrx/component-store";
 import { ToDo } from "@shared/models/to-do";
-import { exhaustMap, map, withLatestFrom } from "rxjs";
+import { exhaustMap, map } from "rxjs";
 
 export interface ToDoState {    
     toDos: ToDo[]
@@ -23,11 +23,30 @@ export class ToDoStore extends ComponentStore<ToDoState> {
         super(initialToDoState);
     }
 
+    readonly update = this.updater<ToDo>((state: ToDoState, toDo:ToDo) => ({
+        ...state,
+        toDos: state.toDos.map(x => {
+            if(toDo.toDoId == x.toDoId) {
+                return toDo;
+            }
+            return x;
+        })
+    }));
+
+    readonly add = this.updater<ToDo>((state: ToDoState, toDo:ToDo) => ({
+        ...state,
+        toDos: [...state.toDos, toDo]
+    }));
+
+    readonly remove = this.updater<ToDo>((state: ToDoState, toDo:ToDo) => ({
+        ...state,
+        toDos: state.toDos.filter(t => t.toDoId != toDo.toDoId )
+    }))
+
     delete = this.effect<ToDo>(
-        exhaustMap((toDo) => this._toDoService.removeToDo(toDo.toDoId).pipe(
-            withLatestFrom(this.select(response => response.toDos)),
+        exhaustMap((toDo) => this._toDoService.removeToDo(toDo.toDoId).pipe(            
             tapResponse(
-                ([_, toDos]) => this.patchState({ toDos: toDos.filter(t => t.toDoId != toDo.toDoId ) }),
+                _ => this.remove(toDo),
                 error => {
 
                 }

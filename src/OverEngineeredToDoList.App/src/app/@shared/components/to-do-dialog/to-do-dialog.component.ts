@@ -10,12 +10,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { ToDo } from '@shared/models/to-do';
 import { createDialogViewModel } from './create-dialog-view-model';
 import { ToDoDialogStore } from './to-do-dialog.store';
-
+import { ReactiveComponentModule } from '@ngrx/component';
 
 @Component({
   selector: 'app-to-do-dialog',
   template: `
-  <ng-container *ngIf="vm$ | async as vm">
+  <ng-container *ngIf="vm$ | ngrxPush as vm">
       <div class="app-dialog-header">
 
           <h1 class="app-dialog-heading" *ngIf="!vm.form.value.toDoId">Create To Do</h1>
@@ -78,7 +78,8 @@ import { ToDoDialogStore } from './to-do-dialog.store';
     MatInputModule,
     MatCheckboxModule,
     ReactiveFormsModule,
-    MatIconModule
+    MatIconModule,
+    ReactiveComponentModule
   ],
   providers: [
     ToDoDialogStore

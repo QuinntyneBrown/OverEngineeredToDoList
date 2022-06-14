@@ -8,13 +8,15 @@ import { ToDoDialogComponent } from '@shared';
 import { ToDo } from '@shared/models/to-do';
 import { ToDoStore } from '@shared/state/to-do.store';
 import { createToDoListViewModel } from './create-to-list-view-model';
+import { ReactiveComponentModule } from '@ngrx/component';
+
 
 @Component({
   selector: 'app-to-dos',
   template: `
     <h1>To Do List</h1>
 
-    <ng-container *ngIf="vm$ | async as vm">
+    <ng-container *ngIf="vm$ | ngrxPush as vm">
       
       <button mat-raised-button (click)="addOrUpdate()">Create</button>
       
@@ -49,7 +51,7 @@ import { createToDoListViewModel } from './create-to-list-view-model';
       <mat-row *matRowDef="let row; columns: vm.displayedColumns;"></mat-row>
 
     </mat-table>
-    
+
   </ng-container>  
   `,
   styles: [`  
@@ -74,7 +76,8 @@ import { createToDoListViewModel } from './create-to-list-view-model';
     ToDoDialogComponent,
     MatTableModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    ReactiveComponentModule
   ]
 })
 export class ToDosComponent implements OnInit {
