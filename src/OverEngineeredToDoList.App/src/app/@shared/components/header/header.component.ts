@@ -2,7 +2,6 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ToDoStore } from '@shared/state/to-do.store';
 import { PushModule } from '@ngrx/component';
-import { of } from 'rxjs';
 
 function createHeaderViewModel() {
   const store = inject(ToDoStore);

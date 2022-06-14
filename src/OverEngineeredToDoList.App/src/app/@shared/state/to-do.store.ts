@@ -2,7 +2,7 @@ import { inject, Injectable } from "@angular/core";
 import { ToDoService } from "@api";
 import { ComponentStore, tapResponse } from "@ngrx/component-store";
 import { ToDo } from "@shared/models/to-do";
-import { exhaustMap, map } from "rxjs";
+import { exhaustMap, map, tap } from "rxjs";
 
 export interface ToDoState {    
     toDos: ToDo[]
@@ -23,30 +23,36 @@ export class ToDoStore extends ComponentStore<ToDoState> {
         super(initialToDoState);
     }
 
-    readonly update = this.updater<ToDo>((state: ToDoState, toDo:ToDo) => ({
-        ...state,
-        toDos: state.toDos.map(x => {
-            if(toDo.toDoId == x.toDoId) {
-                return toDo;
-            }
-            return x;
-        })
-    }));
+    readonly update = (toDo:ToDo, nextFn: {(): void} = null) => {
+        const state = this.get();    
+        return this.effect<void>(
+            exhaustMap(() => (toDo?.toDoId ? this._toDoService.updateToDo(toDo).pipe(
+                tap(response => this.patchState({
+                    toDos: state.toDos.map(t => response.toDo.toDoId == t.toDoId ? response.toDo : t)
+                }))
+            ) : this._toDoService.createToDo(toDo).pipe(
+                tap(response => this.patchState({ toDos: [...state.toDos, response.toDo ]}))
+            )).pipe(            
+                tapResponse(
+                    response => {
+                        if(nextFn)
+                            nextFn();
+                    },
+                    error => {
+    
+                    }
+                )
+            ))
+        )();
+    }
 
-    readonly add = this.updater<ToDo>((state: ToDoState, toDo:ToDo) => ({
-        ...state,
-        toDos: [...state.toDos, toDo]
-    }));
-
-    readonly remove = this.updater<ToDo>((state: ToDoState, toDo:ToDo) => ({
-        ...state,
-        toDos: state.toDos.filter(t => t.toDoId != toDo.toDoId )
-    }))
-
-    delete = this.effect<ToDo>(
+    readonly delete = this.effect<ToDo>(
         exhaustMap((toDo) => this._toDoService.removeToDo(toDo.toDoId).pipe(            
             tapResponse(
-                _ => this.remove(toDo),
+                _ => {
+                    const toDos = this.get(state => state.toDos);
+                    this.patchState({ toDos: toDos.filter(t => t.toDoId != toDo.toDoId )})
+                },
                 error => {
 
                 }

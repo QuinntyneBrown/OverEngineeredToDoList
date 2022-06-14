@@ -9,8 +9,9 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
 import { ToDo } from '@shared/models/to-do';
 import { createDialogViewModel } from './create-dialog-view-model';
-import { ToDoDialogStore } from './to-do-dialog.store';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
+import { ToDoStore } from '@shared/state/to-do.store';
+import { DialogRef } from '@angular/cdk/dialog';
 
 @Component({
   selector: 'app-to-do-dialog',
@@ -79,19 +80,17 @@ import { ReactiveComponentModule } from '@ngrx/component';
     MatCheckboxModule,
     ReactiveFormsModule,
     MatIconModule,
-    ReactiveComponentModule
-  ],
-  providers: [
-    ToDoDialogStore
+    PushModule
   ]
 })
 export class ToDoDialogComponent {
 
-  private readonly _store = inject(ToDoDialogStore);
+  private readonly _store = inject(ToDoStore);
+  private readonly _dialog = inject(DialogRef);
 
   readonly vm$ = createDialogViewModel();
 
-  save(toDo:ToDo) {
-    this._store.save(toDo);  
+  save(toDo:ToDo) {    
+    this._store.update(toDo, () => this._dialog.close());
   }
 }
