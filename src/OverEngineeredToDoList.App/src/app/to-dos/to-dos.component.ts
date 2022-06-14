@@ -8,7 +8,7 @@ import { ToDoDialogComponent } from '@shared';
 import { ToDo } from '@shared/models/to-do';
 import { ToDoStore } from '@shared/state/to-do.store';
 import { createToDoListViewModel } from './create-to-list-view-model';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 
 
 @Component({
@@ -77,7 +77,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
     MatTableModule,
     MatButtonModule,
     MatIconModule,
-    ReactiveComponentModule
+    PushModule
   ]
 })
 export class ToDosComponent implements OnInit {
