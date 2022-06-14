@@ -23,8 +23,9 @@ export class ToDoStore extends ComponentStore<ToDoState> {
         super(initialToDoState);
     }
 
-    readonly update = (toDo:ToDo, nextFn: {(): void} = null) => {
-        const state = this.get();    
+    readonly update = (toDo:ToDo, nextFn: {(response:unknown): void} = null, errorFn: {(response:unknown): void} = null) => {
+        const state = this.get();   
+        
         return this.effect<void>(
             exhaustMap(() => (toDo?.toDoId ? this._toDoService.updateToDo(toDo).pipe(
                 tap(response => this.patchState({
@@ -34,13 +35,12 @@ export class ToDoStore extends ComponentStore<ToDoState> {
                 tap(response => this.patchState({ toDos: [...state.toDos, response.toDo ]}))
             )).pipe(            
                 tapResponse(
-                    response => {
-                        if(nextFn)
-                            nextFn();
-                    },
-                    error => {
+                    nextFn || ((response) => {
+
+                    }),
+                    errorFn || (error => {
     
-                    }
+                    })
                 )
             ))
         )();
