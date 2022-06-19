@@ -104,5 +104,8 @@
       }
     }
   },
-  "defaultProject": "App"
+  "defaultProject": "App",
+  "cli": {
+    "analytics": false
+  }
 }
