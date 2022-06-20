@@ -10,15 +10,21 @@
 
 Welcome to your new app.
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+<SurveyPrompt Title="Not too bad so far..." />
 
 @code {
-    ToDoDto[] toDos;
+
+    [CascadingParameter]
+    public MainLayout Layout { get; set; }
+    
+    ToDoDto[]? toDos;
 
     protected override async Task OnInitializedAsync()
     {
         var response = await Mediator.Send(new GetToDosRequest());
 
         toDos = response.ToDos.ToArray();
+
+        Layout.ToDosCount = toDos.Count();
     }
 }
