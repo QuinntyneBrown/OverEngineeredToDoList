@@ -17,6 +17,7 @@ import { DialogRef } from '@angular/cdk/dialog';
   selector: 'app-to-do-dialog',
   template: `
   <ng-container *ngIf="vm$ | ngrxPush as vm">
+    
       <div class="app-dialog-header">
 
           <h1 class="app-dialog-heading" *ngIf="!vm.form.value.toDoId">Create To Do</h1>
