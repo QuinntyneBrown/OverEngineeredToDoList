@@ -1,11 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <ItemGroup>
-    <ProjectReference Include="..\OverEngineeredToDoList.Core\OverEngineeredToDoList.Core.csproj" />
-  </ItemGroup>
-
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\OverEngineeredToDoList.Application\OverEngineeredToDoList.Application.csproj" />
+  </ItemGroup>
 
 </Project>

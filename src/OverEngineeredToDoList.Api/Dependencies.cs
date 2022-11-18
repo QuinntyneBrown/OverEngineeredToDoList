@@ -1,6 +1,6 @@
 using OverEngineeredToDoList.Infrastructure.Data;
-using OverEngineeredToDoList.Core.Extensions;
-using OverEngineeredToDoList.Core.Interfaces;
+using OverEngineeredToDoList.Application.Extensions;
+using OverEngineeredToDoList.Application.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;

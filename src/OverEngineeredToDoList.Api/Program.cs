@@ -1,13 +1,11 @@
-using OverEngineeredToDoList.Infrastructure.Data;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using OverEngineeredToDoList.Infrastructure.Data;
 using Serilog;
 using Serilog.Events;
 using System;
-using System.Linq;
 
 namespace OverEngineeredToDoList.Api
 {

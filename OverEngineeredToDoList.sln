@@ -1,45 +1,34 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30114.105
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.32916.344
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{E4A2590F-22B7-427F-B917-85EEDB77BF56}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OverEngineeredToDoList.Api", "src\OverEngineeredToDoList.Api\OverEngineeredToDoList.Api.csproj", "{4D8BE170-15D9-4179-A23E-06761CC82122}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OverEngineeredToDoList.Api", "src\OverEngineeredToDoList.Api\OverEngineeredToDoList.Api.csproj", "{4D8BE170-15D9-4179-A23E-06761CC82122}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OverEngineeredToDoList.SharedKernal", "src\OverEngineeredToDoList.SharedKernal\OverEngineeredToDoList.SharedKernal.csproj", "{07759AF0-787E-420F-BECE-D030FBD281AD}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OverEngineeredToDoList.Core", "src\OverEngineeredToDoList.Core\OverEngineeredToDoList.Core.csproj", "{79ADB0C1-852B-47E6-B516-E5ED3846B361}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OverEngineeredToDoList.Infrastructure", "src\OverEngineeredToDoList.Infrastructure\OverEngineeredToDoList.Infrastructure.csproj", "{AA08AA3A-9C50-4181-99E9-7034CBE6F548}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OverEngineeredToDoList.Infrastructure", "src\OverEngineeredToDoList.Infrastructure\OverEngineeredToDoList.Infrastructure.csproj", "{AA08AA3A-9C50-4181-99E9-7034CBE6F548}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{28ED09B3-E9CF-4175-B42C-1EF2B5B20DC5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OverEngineeredToDoList.Testing", "tests\OverEngineeredToDoList.Testing\OverEngineeredToDoList.Testing.csproj", "{E014AAC3-53DE-4CD9-8186-F4B849DEF954}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OverEngineeredToDoList.Testing", "tests\OverEngineeredToDoList.Testing\OverEngineeredToDoList.Testing.csproj", "{E014AAC3-53DE-4CD9-8186-F4B849DEF954}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OverEngineeredToDoList.UnitTests", "tests\OverEngineeredToDoList.UnitTests\OverEngineeredToDoList.UnitTests.csproj", "{EFD89D80-1CA5-4EEF-A309-DA6D7161974C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OverEngineeredToDoList.UnitTests", "tests\OverEngineeredToDoList.UnitTests\OverEngineeredToDoList.UnitTests.csproj", "{EFD89D80-1CA5-4EEF-A309-DA6D7161974C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OverEngineeredToDoList.Domain", "src\OverEngineeredToDoList.Domain\OverEngineeredToDoList.Domain.csproj", "{3E16F131-2F99-4409-9FC6-683024634030}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OverEngineeredToDoList.Application", "src\OverEngineeredToDoList.Application\OverEngineeredToDoList.Application.csproj", "{5B21A4C1-A91A-4E87-8F5B-25EFED42AACF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{4D8BE170-15D9-4179-A23E-06761CC82122}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4D8BE170-15D9-4179-A23E-06761CC82122}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4D8BE170-15D9-4179-A23E-06761CC82122}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4D8BE170-15D9-4179-A23E-06761CC82122}.Release|Any CPU.Build.0 = Release|Any CPU
-		{07759AF0-787E-420F-BECE-D030FBD281AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{07759AF0-787E-420F-BECE-D030FBD281AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{07759AF0-787E-420F-BECE-D030FBD281AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{07759AF0-787E-420F-BECE-D030FBD281AD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{79ADB0C1-852B-47E6-B516-E5ED3846B361}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{79ADB0C1-852B-47E6-B516-E5ED3846B361}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{79ADB0C1-852B-47E6-B516-E5ED3846B361}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{79ADB0C1-852B-47E6-B516-E5ED3846B361}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AA08AA3A-9C50-4181-99E9-7034CBE6F548}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AA08AA3A-9C50-4181-99E9-7034CBE6F548}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AA08AA3A-9C50-4181-99E9-7034CBE6F548}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -52,13 +41,27 @@ Global
 		{EFD89D80-1CA5-4EEF-A309-DA6D7161974C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EFD89D80-1CA5-4EEF-A309-DA6D7161974C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EFD89D80-1CA5-4EEF-A309-DA6D7161974C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E16F131-2F99-4409-9FC6-683024634030}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E16F131-2F99-4409-9FC6-683024634030}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E16F131-2F99-4409-9FC6-683024634030}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E16F131-2F99-4409-9FC6-683024634030}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B21A4C1-A91A-4E87-8F5B-25EFED42AACF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B21A4C1-A91A-4E87-8F5B-25EFED42AACF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B21A4C1-A91A-4E87-8F5B-25EFED42AACF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B21A4C1-A91A-4E87-8F5B-25EFED42AACF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{4D8BE170-15D9-4179-A23E-06761CC82122} = {E4A2590F-22B7-427F-B917-85EEDB77BF56}
-		{07759AF0-787E-420F-BECE-D030FBD281AD} = {E4A2590F-22B7-427F-B917-85EEDB77BF56}
-		{79ADB0C1-852B-47E6-B516-E5ED3846B361} = {E4A2590F-22B7-427F-B917-85EEDB77BF56}
 		{AA08AA3A-9C50-4181-99E9-7034CBE6F548} = {E4A2590F-22B7-427F-B917-85EEDB77BF56}
 		{E014AAC3-53DE-4CD9-8186-F4B849DEF954} = {28ED09B3-E9CF-4175-B42C-1EF2B5B20DC5}
 		{EFD89D80-1CA5-4EEF-A309-DA6D7161974C} = {28ED09B3-E9CF-4175-B42C-1EF2B5B20DC5}
+		{3E16F131-2F99-4409-9FC6-683024634030} = {E4A2590F-22B7-427F-B917-85EEDB77BF56}
+		{5B21A4C1-A91A-4E87-8F5B-25EFED42AACF} = {E4A2590F-22B7-427F-B917-85EEDB77BF56}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7BA72AF8-F3FC-4F23-A7E7-BFF1F51BDF78}
 	EndGlobalSection
 EndGlobal
