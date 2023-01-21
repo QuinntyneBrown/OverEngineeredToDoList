@@ -6,40 +6,39 @@ using System.Threading;
 using System.Threading.Tasks;
 using OverEngineeredToDoList.Domain;
 
-namespace OverEngineeredToDoList.Application.Behaviors
+namespace OverEngineeredToDoList.Application.Behaviors;
+
+public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+    where TRequest : IRequest<TResponse>
+    where TResponse :ResponseBase, new()
 {
-    public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
-        where TRequest : IRequest<TResponse>
-        where TResponse :ResponseBase, new()
+    private readonly IEnumerable<IValidator<TRequest>> _validators;
+
+    public ValidationBehavior(IEnumerable<IValidator<TRequest>> validators)
+        => _validators = validators;
+
+    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
-        private readonly IEnumerable<IValidator<TRequest>> _validators;
+        var context = new ValidationContext<TRequest>(request);
+        var failures = _validators
+            .Select(v => v.Validate(context))
+            .SelectMany(result => result.Errors)
+            .Where(validationFailure => validationFailure != null)
+            .ToList();
 
-        public ValidationBehavior(IEnumerable<IValidator<TRequest>> validators)
-            => _validators = validators;
-
-        public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+        if (failures.Any())
         {
-            var context = new ValidationContext<TRequest>(request);
-            var failures = _validators
-                .Select(v => v.Validate(context))
-                .SelectMany(result => result.Errors)
-                .Where(validationFailure => validationFailure != null)
-                .ToList();
+            var response = new TResponse();
 
-            if (failures.Any())
+            foreach (var failure in failures)
             {
-                var response = new TResponse();
-
-                foreach (var failure in failures)
-                {
-                    response.ValidationErrors.Add(failure.ErrorMessage);
-                }
-
-                return response;
+                response.ValidationErrors.Add(failure.ErrorMessage);
             }
-                
 
-            return await next();
+            return response;
         }
+            
+
+        return await next();
     }
 }

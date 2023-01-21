@@ -1,70 +1,79 @@
-using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Builder;
+using Serilog.Events;
+using Serilog;
+using System;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using OverEngineeredToDoList.Infrastructure.Data;
-using Serilog;
-using Serilog.Events;
-using System;
 
-namespace OverEngineeredToDoList.Api
+Log.Logger = new LoggerConfiguration()
+.MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+.Enrich.FromLogContext()
+.WriteTo.Console()
+.CreateBootstrapLogger();
+
+try
 {
-    public class Program
+    Log.Information("Starting web host");
+
+    var builder = WebApplication.CreateBuilder(args);
+
+    builder.Services.AddApplicationServices();
+
+    builder.Services.AddInfrastructureServices();
+
+    builder.Services.AddApiServices();
+
+    var app = builder.Build();
+
+    ProcessDbCommands(args, app);
+
+    app.UseSerilogRequestLogging(configure =>
     {
-        public static void Main(string[] args)
-        {
-            Log.Logger = new LoggerConfiguration()
-            .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
-            .Enrich.FromLogContext()
-            .WriteTo.Console()
-            .CreateBootstrapLogger();
+        configure.MessageTemplate = "HTTP {RequestMethod} {RequestPath} ({UserId}) responded {StatusCode} in {Elapsed:0.0000}ms";
+    });
 
-            try
-            {
+    app.UseSwagger(options => options.SerializeAsV2 = true);
 
-                Log.Information("Starting web host");
+    app.UseCors("CorsPolicy");
 
-                var host = CreateHostBuilder(args).Build();
+    app.UseRouting();
 
-                ProcessDbCommands(args, host);
+    app.MapControllers();
 
-                host.Run();
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "OverEngineeredToDoList");
+        options.RoutePrefix = string.Empty;
+        options.DisplayOperationId();
+    });
 
-            }
-            catch (Exception ex)
-            {
-                Log.Fatal(ex, "Host terminated unexpectedly");
+    app.Run();
 
-            }
-            finally
-            {
-                Log.CloseAndFlush();
-            }
-        }
+}
+catch (Exception ex)
+{
+    Log.Fatal(ex, "Host terminated unexpectedly");
 
-        private static void ProcessDbCommands(string[] args, IHost host)
-        {
-            var services = (IServiceScopeFactory)host.Services.GetService(typeof(IServiceScopeFactory));
+}
+finally
+{
+    Log.CloseAndFlush();
+}
 
-            using (var scope = services.CreateScope())
-            {
-                var context = scope.ServiceProvider.GetRequiredService<OverEngineeredToDoListDbContext>();
+static void ProcessDbCommands(string[] args, IHost host)
+{
+    var services = (IServiceScopeFactory)host.Services.GetService(typeof(IServiceScopeFactory));
 
-                var configuration = scope.ServiceProvider.GetRequiredService<IConfiguration>();
+    using (var scope = services.CreateScope())
+    {
+        var context = scope.ServiceProvider.GetRequiredService<OverEngineeredToDoListDbContext>();
 
-                SeedData.Seed(context);
-            }
-        }
+        var configuration = scope.ServiceProvider.GetRequiredService<IConfiguration>();
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-            .UseSerilog((context, services, configuration) => configuration
-                    .ReadFrom.Configuration(context.Configuration)
-                    .ReadFrom.Services(services)
-                    .Enrich.FromLogContext())
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
+        SeedData.Seed(context);
     }
 }
+
+
