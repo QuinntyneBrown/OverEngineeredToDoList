@@ -1,3 +1,6 @@
+// Copyright (c) Quinntyne Brown. All Rights Reserved.
+// Licensed under the MIT License. See License.txt in the project root for license information.
+
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ToDoStore } from '@shared/state/to-do.store';
@@ -27,3 +30,4 @@ export class HeaderComponent {
   readonly vm$ = createHeaderViewModel();
 
 }
+

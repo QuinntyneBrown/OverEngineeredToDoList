@@ -1,9 +1,12 @@
-﻿using System.Threading.Tasks;
+// Copyright (c) Quinntyne Brown. All Rights Reserved.
+// Licensed under the MIT License. See License.txt in the project root for license information.
 
-namespace OverEngineeredToDoList.Application.Interfaces
+using System.Threading.Tasks;
+
+namespace OverEngineeredToDoList.Application.Interfaces;
+
+public interface IToDoService
 {
-    public interface IToDoService
-    {
-        Task<bool> ToDoNameExist(string name);
-    }
+    Task<bool> ToDoNameExist(string name);
 }
+

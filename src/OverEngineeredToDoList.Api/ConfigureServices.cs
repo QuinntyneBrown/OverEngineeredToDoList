@@ -1,3 +1,6 @@
+// Copyright (c) Quinntyne Brown. All Rights Reserved.
+// Licensed under the MIT License. See License.txt in the project root for license information.
+
 using Microsoft.Extensions.Configuration;
 using Microsoft.OpenApi.Models;
 using System;
@@ -20,8 +23,8 @@ public static class ConfigureServices
                 TermsOfService = new Uri("https://example.com/terms"),
                 Contact = new OpenApiContact
                 {
-                    Name = "",
-                    Email = ""
+                    Name = "Quinntyne Brown",
+                    Email = "quinntynebrown@gmail.com"
                 },
                 License = new OpenApiLicense
                 {
@@ -51,3 +54,4 @@ public static class ConfigureServices
             .AddNewtonsoftJson();
     }
 }
+

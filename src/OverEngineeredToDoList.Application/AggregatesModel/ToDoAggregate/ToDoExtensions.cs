@@ -1,31 +1,34 @@
+// Copyright (c) Quinntyne Brown. All Rights Reserved.
+// Licensed under the MIT License. See License.txt in the project root for license information.
+
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Threading;
 
-namespace OverEngineeredToDoList.Application
+namespace OverEngineeredToDoList.Application;
+
+public static class ToDoExtensions
 {
-    public static class ToDoExtensions
+    public static ToDoDto ToDto(this ToDo toDo)
     {
-        public static ToDoDto ToDto(this ToDo toDo)
+        return new ()
         {
-            return new ()
-            {
-                ToDoId = toDo.ToDoId,
-                Name = toDo.Name,
-                Complete = toDo.Complete
-            };
-        }
-        
-        public static async Task<List<ToDoDto>> ToDtosAsync(this IQueryable<ToDo> toDos, CancellationToken cancellationToken)
-        {
-            return await toDos.Select(x => x.ToDto()).ToListAsync(cancellationToken);
-        }
-        
-        public static List<ToDoDto> ToDtos(this IEnumerable<ToDo> toDos)
-        {
-            return toDos.Select(x => x.ToDto()).ToList();
-        }       
+            ToDoId = toDo.ToDoId,
+            Name = toDo.Name,
+            Complete = toDo.Complete
+        };
     }
+    
+    public static async Task<List<ToDoDto>> ToDtosAsync(this IQueryable<ToDo> toDos, CancellationToken cancellationToken)
+    {
+        return await toDos.Select(x => x.ToDto()).ToListAsync(cancellationToken);
+    }
+    
+    public static List<ToDoDto> ToDtos(this IEnumerable<ToDo> toDos)
+    {
+        return toDos.Select(x => x.ToDto()).ToList();
+    }       
 }
+

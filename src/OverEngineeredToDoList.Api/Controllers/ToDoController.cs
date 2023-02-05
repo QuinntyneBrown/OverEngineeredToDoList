@@ -1,3 +1,6 @@
+// Copyright (c) Quinntyne Brown. All Rights Reserved.
+// Licensed under the MIT License. See License.txt in the project root for license information.
+
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -138,3 +141,4 @@ public class ToDoController
     }
     
 }
+

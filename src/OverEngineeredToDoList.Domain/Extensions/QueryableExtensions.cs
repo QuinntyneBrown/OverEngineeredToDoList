@@ -1,3 +1,6 @@
+// Copyright (c) Quinntyne Brown. All Rights Reserved.
+// Licensed under the MIT License. See License.txt in the project root for license information.
+
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
@@ -48,3 +51,4 @@ public static class IQueryableExtensions
         return source.Where(Lambda<Func<T, bool>>(selector, itemParameter));
     }
 }
+

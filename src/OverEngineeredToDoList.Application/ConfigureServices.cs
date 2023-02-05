@@ -1,3 +1,6 @@
+// Copyright (c) Quinntyne Brown. All Rights Reserved.
+// Licensed under the MIT License. See License.txt in the project root for license information.
+
 using FluentValidation;
 using MediatR;
 using OverEngineeredToDoList.Application.Behaviors;
@@ -5,6 +8,7 @@ using OverEngineeredToDoList.Application.Interfaces;
 using OverEngineeredToDoList.Application.Services;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 namespace Microsoft.Extensions.DependencyInjection;
@@ -16,10 +20,9 @@ public static class ConfigureServices {
         services.AddValidation(typeof(ToDoService));
 
         services.AddMediatR(typeof(IOverEngineeredToDoListDbContext));
-
     }
 
-    public static IServiceCollection AddValidation(this IServiceCollection services, Type type)
+    public static void AddValidation(this IServiceCollection services, Type type)
     {
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
@@ -32,7 +35,6 @@ public static class ConfigureServices {
                 services.AddTransient(validatorType, validatorImpl);
             }
         }
-        return services;
     }
 
     public static IEnumerable<Type> GetAllTypesImplementingOpenGenericType(Type openGenericType, Assembly assembly)
@@ -48,3 +50,4 @@ public static class ConfigureServices {
                select types;
     }
 }
+

@@ -1,4 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+// Copyright (c) Quinntyne Brown. All Rights Reserved.
+// Licensed under the MIT License. See License.txt in the project root for license information.
+
+using Microsoft.EntityFrameworkCore;
 using OverEngineeredToDoList.Application.Interfaces;
 using System;
 using System.Threading.Tasks;
@@ -19,3 +22,4 @@ public class ToDoService: IToDoService
         return await _context.ToDos.AsNoTracking().SingleOrDefaultAsync(x => x.Name == name) != null;
     }
 }
+
