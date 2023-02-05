@@ -2,12 +2,11 @@ using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using System.Threading;
 
-namespace OverEngineeredToDoList.Application.Interfaces
+namespace OverEngineeredToDoList.Application.Interfaces;
+
+public interface IOverEngineeredToDoListDbContext
 {
-    public interface IOverEngineeredToDoListDbContext
-    {
-        DbSet<ToDo> ToDos { get; }
-        Task<int> SaveChangesAsync(CancellationToken cancellationToken);
-        
-    }
+    DbSet<ToDo> ToDos { get; }
+    Task<int> SaveChangesAsync(CancellationToken cancellationToken);
+    
 }
