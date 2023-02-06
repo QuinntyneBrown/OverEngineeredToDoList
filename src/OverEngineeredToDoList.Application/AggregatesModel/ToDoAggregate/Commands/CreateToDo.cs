@@ -25,7 +25,7 @@ public class CreateToDoValidator: AbstractValidator<CreateToDoRequest>
 
 public class CreateToDoRequest: IRequest<CreateToDoResponse>
 {
-    public string Name { get; set; }
+    public string Name { get; init; }
 }
 
 public class CreateToDoResponse: ResponseBase
